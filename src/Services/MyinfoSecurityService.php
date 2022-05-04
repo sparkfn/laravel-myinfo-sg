@@ -29,7 +29,7 @@ final class MyinfoSecurityService
     public static function verifyJWS(string $accessToken): ?array
     {
         $algorithmManager = new AlgorithmManager([new RS256]);
-        $jwk = JWKFactory::createFromCertificateFile(config('laravel-myinfo-sg.public_cert_path'));
+        $jwk = JWKFactory::createFromCertificate(config('laravel-myinfo-sg.public_cert_path'));
         $jwsVerifier = new JWSVerifier($algorithmManager);
         $serializerManager = new JWSSerializerManager([new CompactSerializer]);
 
@@ -115,7 +115,7 @@ final class MyinfoSecurityService
         // $passphrase is by default null for backward compatibility purpose as I want to avoid a major version bump
         $passphrase = ($passphrase === null) ? config('laravel-myinfo-sg.client_secret') : $passphrase;
 
-        $jwk = JWKFactory::createFromKeyFile(
+        $jwk = JWKFactory::createFromKey(
             $privateKeyPath,
             $passphrase
         );
